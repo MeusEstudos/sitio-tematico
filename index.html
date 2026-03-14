@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plano de Negócios: Sítio Temático de Camping e Recreação</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Chosen Palette: Nature's Vibrancy (Background: #F8FAFC, Primary: #047857 Emerald-700, Secondary: #D97706 Amber-600, Text: #0F172A Slate-900, Accent: #0284C7 Light Blue) -->
+    <!-- Application Structure Plan: A narrative-driven, single-page dashboard designed for potential investors and stakeholders. It flows logically from the overarching concept and location criteria, down into actionable financial strategies, visual budget/ROI breakdowns, a step-by-step implementation timeline, and concludes with the core customer experience (activities). Interactive elements like tabs, accordions, and dynamic charts prevent information overload while allowing deep-dives into specific topics. -->
+    <!-- Visualization & Content Choices:
+         - Concept & Requirements: Goal: Organize. Presentation: CSS Grid with Unicode icons. Justification: Cleanly separates the 3 pillars of land acquisition without SVG overhead.
+         - Location Analysis: Goal: Compare. Presentation: Interactive HTML list with dynamic detail view. Justification: Avoids complex maps while effectively comparing 6 distinct regions.
+         - Financial Strategies: Goal: Organize. Presentation: Interactive Accordion. Justification: Hides dense text regarding credit lines until the user intends to read it.
+         - Budget Breakdown: Goal: Inform/Compare. Presentation: Chart.js Doughnut Chart. Interaction: Hover tooltips. Justification: Industry standard for budget proportions. Includes required label wrapping.
+         - ROI Projection: Goal: Change (Over Time). Presentation: Chart.js Line Chart. Interaction: Tooltips. Justification: Clearly maps the path to profitability and break-even point.
+         - Timeline: Goal: Organize/Change. Presentation: HTML/CSS Vertical Timeline. Justification: Step-by-step visual progression of the 12-month plan. NO Mermaid JS used.
+         - Activities: Goal: Inform. Presentation: Interactive Cards. Justification: Highlights the unique selling propositions (Horta, Trails) using layout and typography. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito+Sans:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+        }
+
+        h1, h2, h3, h4, h5, .font-serif {
+            font-family: 'Lora', serif;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 40vh;
+            max-height: 400px;
+        }
+
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 50vh;
+                max-height: 350px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F8FAFC;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #047857;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #065F46;
+        }
+
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #D97706;
+        }
+
+        .timeline-node::before {
+            content: '';
+            position: absolute;
+            left: -0.6rem;
+            top: 0.25rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: #047857;
+            border: 3px solid #F8FAFC;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="fixed w-full bg-white/90 backdrop-blur-md shadow-sm z-50 border-b border-emerald-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-2">
+                    <span class="text-3xl">🌿</span>
+                    <span class="font-serif font-bold text-xl text-emerald-800">EcoRefúgio Base</span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
+                    <a href="#conceito" class="nav-link">Imóvel</a>
+                    <a href="#localizacao" class="nav-link">Regiões</a>
+                    <a href="#viabilidade" class="nav-link">Financiamento</a>
+                    <a href="#projecoes" class="nav-link">Números</a>
+                    <a href="#cronograma" class="nav-link">Cronograma</a>
+                    <a href="#experiencia" class="nav-link">Experiência</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center text-center">
+        <div class="inline-block px-4 py-1 rounded-full bg-amber-100 text-amber-800 text-sm font-bold mb-6 tracking-wide uppercase">
+            Plano de Negócios Executivo
+        </div>
+        <h1 class="text-4xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight font-serif">
+            Sítio Temático de <br>
+            <span class="text-emerald-700">Camping e Recreação Sustentável</span>
+        </h1>
+        <p class="mt-4 max-w-2xl mx-auto text-xl text-slate-600 font-light leading-relaxed">
+            Um estudo abrangente para a criação de um empreendimento de alto valor agregado focado em isolamento, reconexão com a natureza e turismo de baixo impacto no interior de SP e MG.
+        </p>
+    </header>
+
+    <section id="conceito" class="py-16 bg-white border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mb-12">
+                <h2 class="text-3xl font-serif font-bold text-emerald-800 mb-4">O Perfil do Imóvel Ideal</h2>
+                <p class="text-slate-600 text-lg">
+                    A espinha dorsal deste projeto é a escolha correta da terra. Para garantir a proposta de valor focada em "isolamento" e "privacidade", a busca do imóvel deve obedecer a três pilares inegociáveis. Não buscamos terras agricultáveis em larga escala, mas sim topografias que abracem o projeto.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:shadow-lg transition-shadow">
+                    <div class="text-5xl mb-4">📐</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Dimensão & Relevo</h3>
+                    <p class="text-slate-600">
+                        Metragem mínima recomendada de <strong>30.000 m² (3 hectares)</strong>. É crucial possuir áreas de platô natural ou aclives suaves para a instalação dos decks de glamping sem necessidade de movimentação pesada de terra, preservando a flora nativa.
+                    </p>
+                </div>
+                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:shadow-lg transition-shadow">
+                    <div class="text-5xl mb-4">💧</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Recursos Hídricos</h3>
+                    <p class="text-slate-600">
+                        Presença mandatória de <strong>nascentes próprias</strong> dentro da propriedade ou cursos d'água cristalinos. Fundamental para autonomia do projeto (abastecimento) e como atrativo cenográfico e recreativo para os hóspedes.
+                    </p>
+                </div>
+                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:shadow-lg transition-shadow">
+                    <div class="text-5xl mb-4">🤫</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Isolamento Acústico/Visual</h3>
+                    <p class="text-slate-600">
+                        Distância mínima de 2 km de rodovias asfaltadas movimentadas. O acesso final deve ser por estrada de terra, criando uma transição psicológica para o hóspede. Ausência de vizinhos em um raio visual direto das áreas de hospedagem.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="localizacao" class="py-16 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mb-12">
+                <h2 class="text-3xl font-serif font-bold text-emerald-800 mb-4">Mapeamento Geográfico: SP & MG</h2>
+                <p class="text-slate-600 text-lg">
+                    A seleção da região define o ticket médio, o público-alvo e a sazonalidade do negócio. Selecionamos 6 polos com alta vocação para o turismo rural e de isolamento, analisando o potencial de cada um. Selecione uma região para ver a análise tática.
+                </p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <div class="w-full lg:w-1/2 space-y-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-4 border-b border-slate-200 pb-2">Destinos em São Paulo 📍</h3>
+                        <div class="flex flex-col gap-3" id="sp-list"></div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-4 border-b border-slate-200 pb-2">Destinos em Minas Gerais 📍</h3>
+                        <div class="flex flex-col gap-3" id="mg-list"></div>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-1/2">
+                    <div id="region-display" class="bg-white p-8 rounded-2xl shadow-sm border border-emerald-100 sticky top-24 min-h-[300px] flex flex-col justify-center">
+                        <div class="text-center text-slate-400">
+                            <span class="text-6xl block mb-4">🗺️</span>
+                            <p>Selecione uma região à esquerda para visualizar a análise estratégica detalhada e os diferenciais competitivos locais.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="viabilidade" class="py-16 bg-emerald-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mb-12">
+                <h2 class="text-3xl font-serif font-bold text-amber-400 mb-4">Engenharia Financeira: Captação de Recursos</h2>
+                <p class="text-emerald-100 text-lg">
+                    A estruturação deste projeto assume a premissa de execução <strong>sem injeção de capital próprio inicial para infraestrutura</strong>. O modelo foca em alavancagem através de linhas de crédito subsidiadas para o agronegócio e turismo ecológico.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-emerald-800/50 p-6 rounded-xl border border-emerald-700 hover:bg-emerald-800 transition-colors cursor-pointer" onclick="toggleFinDetails('bndes')">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold font-serif text-white">BNDES Turismo / Finame</h3>
+                        <span class="text-2xl text-amber-400 font-bold" id="icon-bndes">+</span>
+                    </div>
+                    <div class="text-emerald-200 text-sm hidden-content" id="content-bndes">
+                        <p class="mb-2"><strong>Foco:</strong> Financiamento de infraestrutura hoteleira, equipamentos off-grid (placas solares, biodigestores) e construção civil ecológica.</p>
+                        <p class="mb-2"><strong>Pré-requisitos:</strong> CNPJ com CNAE de turismo ativo, licenciamento ambiental preliminar aprovado, projeto arquitetônico detalhado.</p>
+                        <p><strong>Garantias:</strong> O modelo ideal usa o FGI (Fundo Garantidor de Investimentos) ou a alienação fiduciária do próprio imóvel adquirido e dos equipamentos instalados.</p>
+                    </div>
+                </div>
+
+                <div class="bg-emerald-800/50 p-6 rounded-xl border border-emerald-700 hover:bg-emerald-800 transition-colors cursor-pointer" onclick="toggleFinDetails('pronaf')">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold font-serif text-white">PRONAF Turismo Rural</h3>
+                        <span class="text-2xl text-amber-400 font-bold" id="icon-pronaf">+</span>
+                    </div>
+                    <div class="text-emerald-200 text-sm hidden-content" id="content-pronaf">
+                        <p class="mb-2"><strong>Foco:</strong> A linha mais vantajosa (menores juros). Exige que o projeto seja caracterizado como <em>Agroturismo</em>, atrelado à agricultura familiar (daí a importância da Horta Orgânica).</p>
+                        <p class="mb-2"><strong>Pré-requisitos:</strong> Obtenção da DAP (Declaração de Aptidão ao Pronaf) ou CAF. Parte da renda do local deve vir da produção agrícola comercializada com os hóspedes.</p>
+                        <p><strong>Garantias:</strong> Aval solidário, fiança bancária ou alienação da propriedade rural. Carência geralmente longa (até 3 anos).</p>
+                    </div>
+                </div>
+
+                <div class="bg-emerald-800/50 p-6 rounded-xl border border-emerald-700 hover:bg-emerald-800 transition-colors cursor-pointer" onclick="toggleFinDetails('estado')">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold font-serif text-white">Desenvolve SP / BDMG</h3>
+                        <span class="text-2xl text-amber-400 font-bold" id="icon-estado">+</span>
+                    </div>
+                    <div class="text-emerald-200 text-sm hidden-content" id="content-estado">
+                        <p class="mb-2"><strong>Foco:</strong> Agências de fomento estaduais voltadas para projetos ESG, inovação e desenvolvimento regional, com forte apelo em sustentabilidade.</p>
+                        <p class="mb-2"><strong>Pré-requisitos:</strong> Plano de Negócios rigoroso atestando viabilidade, geração de empregos locais e balanço ambiental positivo.</p>
+                        <p><strong>Garantias:</strong> Fundo de Aval Estadual (FDA), recebíveis futuros do projeto ou garantias reais. Excelentes para capital de giro complementar.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 text-sm text-emerald-300 bg-emerald-950 p-4 rounded-lg flex items-start gap-4 border border-emerald-800">
+                <span class="text-2xl">💡</span>
+                <p><strong>Estratégia Recomendada:</strong> Aquisição do terreno via crédito fundiário/alienação, e utilização conjunta de PRONAF para a infraestrutura agrícola/horta e BNDES para os módulos habitacionais de glamping.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projecoes" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mb-12">
+                <h2 class="text-3xl font-serif font-bold text-emerald-800 mb-4">Orçamento e Projeção de Retorno (ROI)</h2>
+                <p class="text-slate-600 text-lg">
+                    Abaixo, apresentamos a estimativa de custos para implementação de um projeto piloto contendo <strong>5 módulos de alto padrão (Glamping)</strong> e a infraestrutura central. Os gráficos ilustram a alocação de capital e a curva de retorno baseada em ocupação conservadora.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                    <h3 class="text-xl font-bold text-slate-800 mb-2 text-center">Distribuição do Investimento Inicial</h3>
+                    <p class="text-center text-slate-500 mb-6 text-sm">Total Estimado: R$ 850.000 (Via Captação)</p>
+                    <div class="chart-container">
+                        <canvas id="budgetChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                    <h3 class="text-xl font-bold text-slate-800 mb-2 text-center">Projeção de Ponto de Equilíbrio (36 Meses)</h3>
+                    <p class="text-center text-slate-500 mb-6 text-sm">Ocupação: 35% (Ano 1) crescendo para 60% (Ano 3)</p>
+                    <div class="chart-container">
+                        <canvas id="roiChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cronograma" class="py-16 bg-slate-100 border-t border-slate-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-serif font-bold text-emerald-800 mb-4">Roteiro de Implantação (12 Meses)</h2>
+                <p class="text-slate-600 text-lg">
+                    O cronograma do "Marco Zero" à "Inauguração". Uma execução estruturada para mitigar riscos durante a aprovação de crédito e licenciamento ambiental.
+                </p>
+            </div>
+
+            <div class="relative pl-8 sm:pl-32 py-6 space-y-12">
+                <div class="absolute left-8 sm:left-32 top-0 bottom-0 w-1 bg-emerald-200 -ml-0.5"></div>
+
+                <div class="relative timeline-node">
+                    <div class="sm:absolute sm:-left-28 sm:top-1 font-bold text-amber-600 mb-2 sm:mb-0">Mês 1-2</div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h4 class="text-lg font-bold text-slate-900 mb-2">Estruturação e Busca Documental</h4>
+                        <p class="text-slate-600 text-sm">Elaboração final do projeto arquitetônico/ambiental. Submissão aos agentes financeiros (Pronaf/BNDES). Mapeamento intensivo e Due Diligence de terras nas regiões selecionadas.</p>
+                    </div>
+                </div>
+
+                <div class="relative timeline-node">
+                    <div class="sm:absolute sm:-left-28 sm:top-1 font-bold text-amber-600 mb-2 sm:mb-0">Mês 3-5</div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h4 class="text-lg font-bold text-slate-900 mb-2">Aquisição e Licenciamento Prévio</h4>
+                        <p class="text-slate-600 text-sm">Assinatura de aquisição da terra. Início imediato do licenciamento ambiental simplificado na prefeitura/estado. Levantamento topográfico para locação dos módulos sem derrubada de árvores.</p>
+                    </div>
+                </div>
+
+                <div class="relative timeline-node">
+                    <div class="sm:absolute sm:-left-28 sm:top-1 font-bold text-amber-600 mb-2 sm:mb-0">Mês 6-8</div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h4 class="text-lg font-bold text-slate-900 mb-2">Infraestrutura Base e Horta</h4>
+                        <p class="text-slate-600 text-sm">Abertura de trilhas internas. Perfuração de poço artesiano (se necessário). Instalação de sistemas de energia solar e saneamento ecológico (Tanques de Evapotranspiração). Início do preparo de solo e plantio da Horta Orgânica.</p>
+                    </div>
+                </div>
+
+                <div class="relative timeline-node">
+                    <div class="sm:absolute sm:-left-28 sm:top-1 font-bold text-amber-600 mb-2 sm:mb-0">Mês 9-11</div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h4 class="text-lg font-bold text-slate-900 mb-2">Montagem e Decoração</h4>
+                        <p class="text-slate-600 text-sm">Chegada e montagem das estruturas pré-fabricadas (Geodésicas, Cabanas A-Frame ou Tendas Safari). Mobiliário, decoração focada em design biofílico. Estruturação da área de Fogo de Chão e convivência.</p>
+                    </div>
+                </div>
+
+                <div class="relative timeline-node">
+                    <div class="sm:absolute sm:-left-28 sm:top-1 font-bold text-amber-600 mb-2 sm:mb-0">Mês 12</div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h4 class="text-lg font-bold text-slate-900 mb-2">Soft Opening e Lançamento Comercial</h4>
+                        <p class="text-slate-600 text-sm">Treinamento da equipe local (caseiros/hospitalidade). Realização de eventos teste (Soft Opening) para amigos/parceiros. Lançamento de campanhas de marketing digital focadas no público de capitais e abertura de reservas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experiencia" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mb-12">
+                <h2 class="text-3xl font-serif font-bold text-emerald-800 mb-4">Proposta de Valor: Atividades e Vivência</h2>
+                <p class="text-slate-600 text-lg">
+                    Um local isolado não é apenas sobre o silêncio, é sobre o que o hóspede faz com ele. O mix de atividades é estruturado para criar pertencimento, relaxamento e educação ambiental orgânica, justificando o alto ticket médio e incentivando estadias prolongadas.
+                </p>
+            </div>
+
+            <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 mb-12 flex flex-col md:flex-row items-center gap-8 shadow-sm">
+                <div class="text-7xl">🍅</div>
+                <div>
+                    <div class="inline-block px-3 py-1 bg-emerald-700 text-white text-xs font-bold rounded-full mb-3 uppercase tracking-wider">Atratívo Âncora</div>
+                    <h3 class="text-2xl font-bold text-emerald-900 mb-3 font-serif">A Horta Mandala "Colha e Cozinhe"</h3>
+                    <p class="text-slate-700 leading-relaxed mb-4">
+                        O coração do sítio. Uma horta orgânica desenvolvida em formato circular (mandala permacultural). Além de prover os insumos para a operação, ela é interativa. O hóspede recebe uma cesta no check-in e é convidado a colher seus próprios temperos, hortaliças e ovos (galinheiro anexo) para preparar suas refeições nos módulos. Reduz custos operacionais de A&B (Alimentos e Bebidas) e cria uma experiência rústica inesquecível.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 hover:border-amber-500 transition-colors shadow-sm group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform origin-left">🥾</div>
+                    <h4 class="text-xl font-bold text-slate-800 mb-2">Trilhas Sensoriais</h4>
+                    <p class="text-slate-600 text-sm">Caminhos desenhados no bosque nativo. Algumas rotas curtas possuem guias de corda, permitindo que casais façam o percurso com olhos vendados, aguçando a audição da mata e o olfato da terra úmida.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 hover:border-amber-500 transition-colors shadow-sm group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform origin-left">🔥</div>
+                    <h4 class="text-xl font-bold text-slate-800 mb-2">Fogo de Chão e Dark Sky</h4>
+                    <p class="text-slate-600 text-sm">Área central de fogo rústica. À noite, a iluminação do sítio é drasticamente reduzida (Dark Sky reserve informal), focando na observação de estrelas e convivência ao redor da fogueira com pão de caçador.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 hover:border-amber-500 transition-colors shadow-sm group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform origin-left">🛠️</div>
+                    <h4 class="text-xl font-bold text-slate-800 mb-2">Workshops Sazonais</h4>
+                    <p class="text-slate-600 text-sm">Ocupação de finais de semana de baixa temporada com vivências guiadas: cursos básicos de compostagem doméstica, identificação de PANCs (Plantas Alimentícias Não Convencionais) ou cerâmica primitiva.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-900 py-10 text-center border-t-4 border-emerald-700">
+        <p class="text-slate-400 text-sm font-light">Documento Interativo | Plano de Negócios Sítio Temático</p>
+        <p class="text-slate-500 text-xs mt-2">Construído para análise de viabilidade e captação de parceiros.</p>
+    </footer>
+
+    <script>
+        const regiaoSP = [
+            { id: 'sp-1', nome: 'Cunha (SP)', icon: '⛰️', desc: 'Forte apelo para casais e clima de montanha. Polo de cerâmica, Lavandários e gastronomia estruturada. Alta valorização imobiliária.', pro: 'Público cativo de SP (capital) disposto a pagar alto ticket.' },
+            { id: 'sp-2', nome: 'São Bento do Sapucaí', icon: '🌲', desc: 'Serra da Mantiqueira, vizinha de Campos do Jordão mas com viés ecológico e montanhismo (Pedra do Baú). Paisagens exuberantes.', pro: 'Apelo forte de Refúgio de Inverno e esportes na natureza.' },
+            { id: 'sp-3', nome: 'Iporanga (PETAR)', icon: '🦇', desc: 'Mata Atlântica profunda e dezenas de cavernas. Região mais rústica, focada no ecoturismo selvagem.', pro: 'Custo de aquisição de terras significativamente menor.' }
+        ];
+
+        const regiaoMG = [
+            { id: 'mg-1', nome: 'Gonçalves (MG)', icon: '🍷', desc: 'A nova coqueluche do turismo rural de alto padrão. Araucárias, montanhas imponentes e gastronomia refinada. Terrenos altamente disputados.', pro: 'Permite o maior ticket médio de diária entre as opções.' },
+            { id: 'mg-2', nome: 'Aiuruoca', icon: '🌿', desc: 'Isolamento genuíno e aura esotérica (Vale do Matutu). Centenas de nascentes e cachoeiras geladas. Acesso mais difícil, o que garante a proposta de refúgio.', pro: 'Autenticidade rural mineira máxima e terras fartas em água.' },
+            { id: 'mg-3', nome: 'Serra do Cipó', icon: '🦅', desc: 'Paisagem de transição (Cerrado/Rupestre), cachoeiras espetaculares. Proximidade com Belo Horizonte (aeroporto de Confins).', pro: 'Sazonalidade menos dependente do frio; calor atrai turistas o ano todo.' }
+        ];
+
+        function wrapLabel(label, limit = 16) {
+            if (label.length <= limit) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + words[i].length + 1 <= limit) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        function renderRegions(data, containerId) {
+            const container = document.getElementById(containerId);
+            let html = '';
+            data.forEach(item => {
+                html += `
+                    <button onclick="showRegion('${item.nome}', '${item.icon}', '${item.desc}', '${item.pro}')" 
+                            class="w-full text-left p-4 bg-white border border-slate-200 rounded-xl hover:border-emerald-500 hover:shadow-md transition-all group flex items-center justify-between">
+                        <span class="font-bold text-slate-700 group-hover:text-emerald-700">${item.icon} ${item.nome}</span>
+                        <span class="text-slate-300 group-hover:text-emerald-500">→</span>
+                    </button>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        window.showRegion = function(nome, icon, desc, pro) {
+            const display = document.getElementById('region-display');
+            display.innerHTML = `
+                <div class="animate-fade-in">
+                    <span class="text-5xl block mb-4">${icon}</span>
+                    <h4 class="text-2xl font-bold font-serif text-emerald-800 mb-4">${nome}</h4>
+                    <p class="text-slate-600 mb-6 leading-relaxed">${desc}</p>
+                    <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+                        <p class="text-sm text-slate-700"><strong>Diferencial Estratégico:</strong> ${pro}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.toggleFinDetails = function(id) {
+            const content = document.getElementById('content-' + id);
+            const icon = document.getElementById('icon-' + id);
+            if(content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                content.classList.add('block');
+                icon.innerText = '-';
+            } else {
+                content.classList.remove('block');
+                content.classList.add('hidden');
+                icon.innerText = '+';
+            }
+        }
+
+        function initCharts() {
+            Chart.defaults.font.family = "'Nunito Sans', sans-serif";
+            Chart.defaults.color = '#475569';
+
+            const tooltipConfig = {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
+                    }
+                }
+            };
+
+            const ctxBudget = document.getElementById('budgetChart').getContext('2d');
+            new Chart(ctxBudget, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        wrapLabel('Aquisição Imóvel / Terreno'),
+                        wrapLabel('Módulos de Hospedagem (5 unidades)'),
+                        wrapLabel('Infraestrutura (Água, Luz, Acesso)'),
+                        wrapLabel('Áreas Comuns e Horta'),
+                        wrapLabel('Capital de Giro e Marketing')
+                    ],
+                    datasets: [{
+                        data: [150000, 350000, 180000, 70000, 100000],
+                        backgroundColor: [
+                            '#047857', 
+                            '#D97706', 
+                            '#0284C7', 
+                            '#65A30D', 
+                            '#64748B'  
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#F8FAFC'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right', labels: { boxWidth: 12 } },
+                        tooltip: tooltipConfig
+                    },
+                    cutout: '60%'
+                }
+            });
+
+            const ctxRoi = document.getElementById('roiChart').getContext('2d');
+            new Chart(ctxRoi, {
+                type: 'line',
+                data: {
+                    labels: ['Mês 6', 'Mês 12', 'Mês 18', 'Mês 24', 'Mês 30', 'Mês 36'],
+                    datasets: [
+                        {
+                            label: wrapLabel('Despesa Acumulada (CAPEX + OPEX)'),
+                            data: [850000, 920000, 990000, 1060000, 1130000, 1200000],
+                            borderColor: '#EF4444',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            fill: false,
+                            tension: 0
+                        },
+                        {
+                            label: wrapLabel('Receita Bruta Acumulada'),
+                            data: [0, 150000, 480000, 850000, 1280000, 1800000],
+                            borderColor: '#047857',
+                            backgroundColor: 'rgba(4, 120, 87, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: tooltipConfig
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: function(value) {
+                                    return 'R$ ' + (value / 1000) + 'k';
+                                }
+                            },
+                            grid: { color: 'rgba(0,0,0,0.05)' }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderRegions(regiaoSP, 'sp-list');
+            renderRegions(regiaoMG, 'mg-list');
+            
+            document.querySelectorAll('.hidden-content').forEach(el => el.classList.add('hidden'));
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        initCharts();
+                        observer.disconnect(); 
+                    }
+                });
+            }, { threshold: 0.2 });
+            
+            observer.observe(document.getElementById('projecoes'));
+        });
+    </script>
+</body>
+</html>
